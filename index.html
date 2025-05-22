@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecionando...</title>
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const type = params.get('type');
+
+      if (token && type === 'recovery') {
+        const deepLink = `tunetrail://reset-password#access_token=${token}&type=${type}`;
+        window.location.href = deepLink;
+      } else {
+        document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
+      }
+    };
+  </script>
+</head>
+<body>
+  <h2>Redirecionando para o app...</h2>
+</body>
+</html>
