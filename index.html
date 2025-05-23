@@ -6,14 +6,14 @@
   <script>
     window.onload = async function () {
       const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
+      const token = params.get('token');
+      const type = params.get('type');
 
-      if (!code) {
+      if (!token || type !== 'recovery') {
         document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
         return;
       }
 
-      // Substitua pelo seu domínio Supabase
       const supabaseUrl = 'https://jibxbzuxzycxqdnrkegv.supabase.co';
 
       try {
@@ -24,7 +24,7 @@
           },
           body: JSON.stringify({
             grant_type: 'pkce',
-            code: code,
+            code: token,
             redirect_uri: 'https://allanjfarias.github.io/tunetrail-redirect/'
           })
         });
@@ -36,6 +36,7 @@
           const deepLink = `tunetrail://reset-password#access_token=${accessToken}&type=recovery`;
           window.location.href = deepLink;
         } else {
+          console.error(data);
           document.body.innerHTML = '<h2>Não foi possível obter o token de acesso.</h2>';
         }
 
