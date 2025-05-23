@@ -4,16 +4,44 @@
   <meta charset="UTF-8" />
   <title>Redirecionando...</title>
   <script>
-    window.onload = function () {
+    window.onload = async function () {
       const params = new URLSearchParams(window.location.search);
-      const token = params.get('token');
-      const type = params.get('type');
+      const code = params.get('code');
 
-      if (token && type === 'recovery') {
-        const deepLink = `tunetrail://reset-password#access_token=${token}&type=${type}`;
-        window.location.href = deepLink;
-      } else {
+      if (!code) {
         document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
+        return;
+      }
+
+      // Substitua pelo seu domínio Supabase
+      const supabaseUrl = 'https://jibxbzuxzycxqdnrkegv.supabase.co';
+
+      try {
+        const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=pkce`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            grant_type: 'pkce',
+            code: code,
+            redirect_uri: 'https://allanjfarias.github.io/tunetrail-redirect/'
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.access_token) {
+          const accessToken = data.access_token;
+          const deepLink = `tunetrail://reset-password#access_token=${accessToken}&type=recovery`;
+          window.location.href = deepLink;
+        } else {
+          document.body.innerHTML = '<h2>Não foi possível obter o token de acesso.</h2>';
+        }
+
+      } catch (error) {
+        console.error('Erro:', error);
+        document.body.innerHTML = '<h2>Erro ao processar o redirecionamento.</h2>';
       }
     };
   </script>
