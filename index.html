@@ -6,10 +6,9 @@
   <script>
     window.onload = async function () {
       const params = new URLSearchParams(window.location.search);
-      const token = params.get('token');
-      const type = params.get('type');
+      const code = params.get('code');
 
-      if (!token || type !== 'recovery') {
+      if (!code) {
         document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
         return;
       }
@@ -24,7 +23,7 @@
           },
           body: JSON.stringify({
             grant_type: 'pkce',
-            code: token,
+            code: code,
             redirect_uri: 'https://allanjfarias.github.io/tunetrail-redirect/'
           })
         });
@@ -36,7 +35,6 @@
           const deepLink = `tunetrail://reset-password#access_token=${accessToken}&type=recovery`;
           window.location.href = deepLink;
         } else {
-          console.error(data);
           document.body.innerHTML = '<h2>Não foi possível obter o token de acesso.</h2>';
         }
 
