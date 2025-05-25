@@ -7,7 +7,8 @@
     window.onload = function () {
       const params = new URLSearchParams(window.location.search);
       const token = params.get('token'); // <-- Corrigido
-
+      console.log('Params:', window.location.search);
+      console.log('Token:', token);
       if (!token) {
         document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
         return;
