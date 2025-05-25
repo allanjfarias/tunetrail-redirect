@@ -6,15 +6,15 @@
   <script>
     window.onload = function () {
       const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
+      const token = params.get('token'); // <-- Corrigido
 
-      if (!code) {
+      if (!token) {
         document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
         return;
       }
 
-      // Redireciona para o deep link do app com o code
-      const deepLink = `tunetrail://reset-password?code=${code}&type=recovery`;
+      // Redireciona para o deep link do app com o token
+      const deepLink = `tunetrail://reset-password?code=${token}&type=recovery`;
       window.location.href = deepLink;
     };
   </script>
