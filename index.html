@@ -5,6 +5,9 @@
   <title>Redirecionando...</title>
   <script>
     window.onload = function () {
+
+      console.log('Query string completa:', window.location.search);
+
       const params = new URLSearchParams(window.location.search);
       const token = params.get('token'); // <-- Corrigido
       console.log('Params:', window.location.search);
