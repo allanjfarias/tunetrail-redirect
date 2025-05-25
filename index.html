@@ -15,6 +15,7 @@
 
       // Redireciona para o deep link do app com o token
       const deepLink = `tunetrail://reset-password?code=${token}&type=recovery`;
+      console.log('Redirecionando para:', deepLink);
       window.location.href = deepLink;
     };
   </script>
