@@ -4,26 +4,31 @@
   <meta charset="UTF-8" />
   <title>Redirecionando...</title>
   <script>
-    window.onload = function () {
+    window.onload = () => {
       const params = new URLSearchParams(window.location.search);
+      const token = params.get("access_token");
 
-      const token = params.get('token');
-      const code = params.get('code');
+      if (token) {
+        // Deep link para o app
+        const deepLink = `tunetrail://reset-password?access_token=${token}`;
+        
+        // Redireciona para o deep link
+        window.location.href = deepLink;
 
-      const value = token || code; // usa o que estiver disponível
-      if (!value) {
-        document.body.innerHTML = '<h2>Link inválido para redefinição de senha.</h2>';
-        return;
+        // Redirecionamento fallback (caso deep link falhe)
+        setTimeout(() => {
+          document.body.innerHTML = `
+            <p>Não conseguimos abrir o app automaticamente.</p>
+            <p><a href="${deepLink}">Clique aqui para abrir manualmente</a></p>
+          `;
+        }, 3000);
+      } else {
+        document.body.innerHTML = "<p>Token inválido ou ausente.</p>";
       }
-
-      const deepLink = `tunetrail://reset-password?code=${value}&type=recovery`;
-      console.log('Redirecionando para:', deepLink);
-      window.location.href = deepLink;
     };
   </script>
 </head>
 <body>
-  <h2>Redirecionando...</h2>
+  <p>Redirecionando para o app...</p>
 </body>
 </html>
-
