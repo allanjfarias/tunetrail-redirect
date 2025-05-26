@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Debug Link</title>
-</head>
-<body>
-  <h2>Link recebido:</h2>
-  <pre id="fullLink"></pre>
+<html>
+  <head>
+    <script>
+      // Extrai os parâmetros da URL
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const type = params.get("type");
 
-  <script>
-    window.onload = function () {
-      const fullUrl = window.location.href;
-      document.getElementById('fullLink').textContent = fullUrl;
-    };
-  </script>
-</body>
+      // Monta o deep link
+      const deeplink = `tunetrail://auth-redirect?code=${code}&type=${type}`;
+
+      // Loga no console
+      console.log("Deep link gerado:", deeplink);
+
+      // Redireciona para o app
+      window.location.href = deeplink;
+    </script>
+  </head>
+  <body>
+    <p>Redirecionando para o app...</p>
+  </body>
 </html>
